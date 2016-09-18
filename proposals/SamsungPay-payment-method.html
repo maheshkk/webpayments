@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SamsungPay Payment Method</title>
+    <meta charset='utf-8'>
+    <script src='https://www.w3.org/Tools/respec/respec-w3c-common'
+            async class='remove'></script>
+    <script class='remove'>
+      var respecConfig = {
+          shortName:  "samsungpay-payment-method",
+          //edDraftURI:   "https://w3c.github.io/browser-payment-api/basic-card-payment.html",
+
+          specStatus: "ED",
+          publishDate: "2016-09-15",
+          editors: [
+                {   name:       "Mahesh Kulkarni",
+                    company:    "Samsung Electronics" 
+                },
+                {
+                    name:      "Dongwoo Joshua Im",
+                    company:   "Samsung Electronics"
+                },
+                {
+                    name: "Sia Jeffry Saputra",
+                    company: "Samsung Electronics"  
+                }
+          ],
+
+          license:      "w3c-software-doc",
+          noRecTrack:   true,
+
+          //previousMaturity: "FPWD",
+          //previousPublishDate:  "1977-03-15",
+
+          wg:           "Web Payments Working Group",
+          wgURI:        "https://www.w3.org/Payments/WG/",
+          wgPublicList: "public-payments-wg",
+          wgPatentURI:  "https://www.w3.org/2004/01/pp-impl/83744/status",
+
+          issueBase:    "https://github.com/w3c/browser-payment-api/issues/",
+
+          localBiblio:  {
+              "PAYMENTARCH": {
+                  title:    "Payment Request Architecture"
+              ,   href:     "https://w3c.github.io/browser-payment-api/specs/architecture.html"
+              ,   authors:  [
+                      "Adrian Bateman"
+                  ,   "Zach Koch"
+                  ,   "Richard Barnes"
+                  ,   "Roy McElmurry"
+                  ]
+              ,   status:   "ED"
+              },
+              "PAYMENTREQUESTAPI": {
+                  title:    "Payment Request API"
+              ,   href:     "https://www.w3.org/TR/payment-request/"
+              ,   authors:  [
+                      "Adrian Bateman"
+                  ,   "Zach Koch"
+                  ,   "Richard Barnes"
+                  ,   "Roy McElmurry"
+                  ]
+              ,   status:   "WD"
+              },
+              "METHODIDENTIFIERS": {
+                  title:    "Payment Method Identifiers"
+              ,   href:     "https://www.w3.org/TR/payment-method-id/"
+              ,   authors:  [
+                      "Adrian Bateman"
+                  ,   "Zach Koch"
+                  ,   "Richard Barnes"
+                  ,   "Roy McElmurry"
+                  ]
+              ,   status:   "WD"
+              },
+			  "WEBIDL": {
+                  title:    "WebIDL Level 1"
+              ,   href:     "http://www.w3.org/TR/WebIDL-1/"
+              ,   authors:  [
+                      "Cameron McCormack"
+                  ,   "Boris Zbarsky"
+                  ]
+              ,   status:   "Rec"
+              }
+          }
+      };
+    </script>
+    <style>
+    dt { margin-top: 0.75em; }
+    table { margin-top: 0.75em; border-collapse:collapse; border-style:hidden hidden none hidden }
+    table thead { border-bottom:solid }
+    table tbody th:first-child { border-left:solid }
+    table td, table th { border-left:solid; border-right:solid; border-bottom:solid thin; vertical-align:top; padding:0.2em }
+    li { margin-top: 0.5em; margin-bottom: 0.5em;}
+    </style>
+  </head>
+  <body>
+    <section id='abstract'>
+      <p>
+        The Samsungpay payment method specification describes the data formats used by the PaymentRequest API [[!PAYMENTREQUESTAPI]] to support payment by SamsungPay.
+      </p>
+    </section>
+
+    <section id='sotd'>
+    </section>
+    
+    <section class='informative'>
+      <h2>Introduction</h2>
+      <p>
+        Samsung Pay is accepted at more places than any other mobile payment service out there, from the grocery store to the coffee shop to your favorite department store. It’s secure, easy to set up and simple to use with your latest Samsung Galaxy device. Currently Samsung Pay is available only on Samsung mobile devices running on Android operating system. This specification is a SamsungPay Payment Method Specification used by the PaymentRequest API [[!PAYMENTREQUESTAPI]] 
+      </p>
+      <p> 
+        This is a SamsungPay Payment Method Specification used by the PaymentRequest API
+        [[!PAYMENTREQUESTAPI]] to support payment by Samsung Pay on Samsung devices.  
+      </p>
+      <p>
+        Samsung Pay only supports merchants who accept tokenized payments. With tokenized response, it is intented to provide secured payment method for merchants and issuing banks who currently face many security issues requesting card details from customers.
+    </section>
+
+    <section id="dependencies"> 
+      <h2>Dependencies</h2> 
+      <p> 
+      This specification relies on several other underlying specifications. 
+      </p> 
+      <dl> 
+        <dt>Payment Request Architecture</dt>
+        <dd>The terms <dfn data-lt="payment method|payment methods">Payment Method</dfn>,
+        <dfn data-lt="payment app|payment apps">Payment App</dfn>, and <dfn>Payment Transaction
+        Message Specification</dfn> are defined by the Payment Request Architecture document
+        [[!PAYMENTARCH]].</dd>
+        <dt>Payment Request API</dt>
+        <dd>The term <dfn>PaymentRequest constructor</dfn> is defined by the PaymentRequest API
+        specification [[!PAYMENTREQUESTAPI]].</dd>
+        <dt>Payment Method Identifiers</dt>
+        <dd>The term <dfn data-lt="payment method identifier|payment method identifiers">Payment
+        Method Identifier</dfn> is defined by the Payment Method Identifiers specification
+        [[!METHODIDENTIFIERS]].</dd>
+        <dt>Web IDL</dt>
+        <dd>The IDL in this specification is defined by Web IDL [[!WEBIDL]].</dd>
+      </dl>
+    </section>
+
+    <section id="method-id">
+      <h2>Payment Method Identifier</h2>
+      <p>The following <a href="https://www.w3.org/TR/payment-method-id/">payment method identifier</a> strings are supported by the Samsung Pay data formats.</p>
+
+      <table>
+        <tr><th>Identifier String</th></tr>
+        <tr><td>https://samsung.com/pay</td></tr>        
+      </table>
+    </section>
+
+    <section id="Prerequisites">
+      <h2>SamsungPay Prerequisites</h2>
+      <ul>
+        <li>
+          Make sure you are in of the <a href="http://www.samsung.com/us/support/owners/app/samsung-pay"> supported countries </a>
+        </li>
+        <li>
+          Ensure that your <a href="http://www.samsung.com/us/support/owners/app/samsung-pay"> payment gateway / processor supports </a> Samsung Pay tokens
+        </li>
+        <li>
+          Ensure that your payment gateway supports indirect payment method and has support to provide gateway token
+        </li>
+        <li>
+          Sign up with your company name, origin and contact details using <a href=""> merchant onboarding portal </a>
+        </li>
+        <li>
+          We recommend that you obtain public key from gateway/processor in order to decrypt tokens from SamsungPay 
+        </li>
+      </ul>
+      <aside class="note">
+        Hyperlinks provided above are place holders and will be replaced with actual hyperlinks soon.
+      </aside>
+    </section>
+	
+  	<section id="payment-flows">
+      <h2>SamsungPay Payment flows</h2>
+      
+    </section>
+
+    <section id="init-data">
+      <h2>Payment Method Specific Data</h2>
+      <p>This section describes <a href="https://w3c.github.io/browser-payment-api/#paymentmethoddata-dictionary"> payment method specific data </a> that is supplied as part of the <code>data</code> argument to the PaymentRequest constructor.</p>  
+      
+      <p>The following example shows how to construct <code>data</code> parameter and provide requried payment method information:</p>
+      
+      <aside class="note">
+        Below example uses stripe as an example gateway. 
+      </aside>
+ 
+      <pre class="example highlight">
+        var supportedInstruments = [
+          {
+            supportedMethods: ['https://samsung.com/pay'],
+            data: {
+              allowedCardNetworks: ['AMEX', 'MASTERCARD', 'VISA', 'DISCOVER'],
+              paymentMethodTokenizationParameters: {
+                tokenizationType: 'GATEWAY_TOKEN',
+                parameters: {
+                  // name of the gateway you support. Stripe is an example here. 
+                  'gateway': 'stripe',
+                  // Stripe publishable key here.
+                  'stripe:publishableKey': 'pk_live_fD7ggZCtrB0vJNApRX5TyJ9T',
+                  'stripe:version': '2016-07-06'
+                }
+              }
+            }
+          }
+        ];
+      </pre>	  
+
+      <p> In order to use Samsung Pay with the gateway token approach, add a JSON object that contains the following parameters per the above example.</p>
+      <ul>
+          <li>
+            <dt><dfn><code>supportedMethods</code></dfn></dt>
+            <dd>The <code>supportedMethods: ['https://samsung.com/pay']</code> field indicates this payment method is using Samsung Pay.</dd>
+          </li>
+          <li>
+            <dt><dfn><code>allowedCardNetworks</code></dfn></dt>
+            <dd>The <code>allowedCardNetworks</code> field contains allowed credit card networks that constitutes a valid response.</dd>
+          </li>
+          <li>
+            <dt><dfn><code>tokenizationType</code></dfn></dt>
+            <dd>The <code>tokenizationType</code> field contains type of merchant prefered token.</dd>          
+          </li>
+          <li>
+            <dt><dfn><code>gateway</code></dfn></dt>
+            <dd>The <code>gateway</code> field specifies merchant's prefered gateway for payment processing.</dd>
+          </li>
+          <li>
+            <dt><dfn><code>stripe:publishableKey</code></dfn></dt>
+            <dd>The <code>stripe:publishableKey</code> field is publishable key merchant received from gateway (stripe in this example)</dd>
+          </li>
+          <li>
+            <dt><dfn><code>stripe:version</code></dfn></dt>
+            <dd>The <code>stripe:version</code> gateway specific information.</dd>  
+          </li>
+      </ul>
+      <aside class="note">
+        Please refer to SamsungPay <a href="">payment gateway documentation</a> for more specific payment gateway parameters.
+      </aside>
+      <aside class="note">
+        Currently SamsungPay only supports GATEWAY_TOKEN. Support for more types of tokens in future is expected.
+      </aside>
+
+    <section>
+      <h2>Payment Method Specific definition</h2>
+      
+      <p> Data is a <a href="">JSON-serializable object</a> passed as parameter of <a href="https://w3c.github.io/browser-payment-api/#paymentmethoddata-dictionary">PaymentMethodData</a>. The following defines JSON data syntax for SamsungPay payment method data. </p>
+      <pre class="idl">
+         dictionary  SamsungPayRequestData { 
+           required sequence&lt;DOMString&gt; allowedCardNetworks;
+           object paymentMethodTokenizationParameters;
+         };
+
+         dictionary paymentMethodTokenizationParameters {
+           required DOMString tokenizationType;
+           object parameters;
+         };
+      </pre>
+      <pre class="example">
+         object parameters {
+          required 'gateway' : 'type-of-gateway';
+          'gateway:keys' : "values";
+          ...        
+         };
+      </pre>
+	 
+      <aside class="issue">
+        How to define JSON syntax in w3c spec? 
+      </aside> 
+	  </section>
+	  
+    </section>
+
+    <section id="response">
+      <h2>Payment Method Response</h2>
+      <p>Samsung Pay does not process the payment. The merchant would still need to invoke gateway APIs to charge/process the gateway token returned from Samsung Pay. When requesting a gateway token, Samsung Pay makes a call to your processor on your behalf and returns a chargeable gateway token. Payment Request API provides shipping address, contact information as outlined in specification [[!PAYMENTREQUESTAPI]]. SamsungPay returns <a href="">JSON-serializable</a> object <code>SamsungPayResponse</code> in addition to information received from [[!PAYMENTREQUESTAPI]].</p>
+
+      <p>The <code>SamsungPayResponse</code> dictionary contains the response from SamsungPay and returned as part of 
+        <a href="https://w3c.github.io/browser-payment-api/#paymentresponse-interface">PaymentResponse</a> <code>details</code> parameter. 
+      </p>
+
+      <section>
+          <h2>Payment Method Response </h2>
+          <p> SamsungPay response consist of follwing information including the token from gateway as specified from merchant. </p>
+          <ul>
+            <li>
+              Billing address
+            </li>
+            <li>
+              Contact information
+            </li>
+            <li>
+              Token from specified payment gateway
+            </li>
+          </ul>
+
+     <pre class="example highlight">
+          paymentRequest.show().then(response => {
+            // Manually clone the resulting object
+            var data = {};
+            data.methodName = response.methodName;
+            data.details    = response.details; // SamsungPayResponse
+            data.payerEmail = response.payerEmail;
+            data.payerPhone = response.payerPhone;
+            data.address    = response.shippingAddress;
+            data.shipping   = response.shippingOption;
+          }
+      </pre>
+      <p>Merchant needs to submit <code>response.details</code> token to payment gateway to process payment. How you handle a submitted gateway token depends on the payment gateway. Please refer to the specific gateway’s documentation for more details.
+      
+      <h2>SamsungPayPaymentResponse</h2>
+      <pre class="idl">
+      dictionary SamsungPayResponse {
+        required DOMString token;
+        object billingAddress;
+        object contact;
+      };
+      </pre>
+
+      <p>
+        The <code>SamsungPayPaymentResponse</code> dictionary contains the following fields:
+      </p>
+
+      <dl>
+        <dt><dfn><code>token</code></dfn></dt>
+        <dd>The <code>token</code> field is gateway token returned from your processor</dd>
+        <dt><dfn><code>billingAddress</code></dfn></dt>
+        <dd>The <code>billingAddress</code> field contains billing address of payee. Please refer <a href="">SamsungPay response</a> for more details.</dd>
+        <dt><dfn><code>contact</code></dfn></dt>
+        <dd>The <code>contact</code> field contains payee contact information for your processor. Please refer <a href="">SamsungPay response</a> for more details.</dd>
+      </dl>
+      <aside class="issue">
+        How to define JSON syntax in w3c spec? 
+      </aside>
+      </section>
+    </section>
+  </body>
+</html>
